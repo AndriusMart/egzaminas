@@ -46,9 +46,25 @@
                                 </div>
                             </div>
                             <h2 class="title mt-5">About!</h2>
-                                    <div class="line">
-                                        <p>{{$book->about}}</p>
-                                    </div>
+                            <div class="line">
+                                <p>{{$book->about}}</p>
+                                {{-- like --}}
+                                @if($likes->first() !== null)
+                                <form action="{{route('l_store')}}" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
+                                    <input type="hidden" value="{{ $book->id}}" name="book_id">
+                                    @csrf
+                                    <button type="submit" class="order">Like</button>
+                                </form>
+                                @else
+                                <form action="{{route('l_store')}}" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
+                                    <input type="hidden" value="{{ $book->id}}" name="book_id">
+                                    @csrf
+                                    <button type="submit" class="order">Like</button>
+                                </form>
+                                @endif
+                            </div>
                         </div>
                         @php
                         $votes = json_decode($book->votes ?? json_encode([]));
@@ -74,7 +90,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
 @endsection

@@ -127,39 +127,19 @@
                             @endif
 
                             {{-- like --}}
-                            @php
-                            $lik = 0
-                            @endphp
                             @if($likes->first() !== null)
-                            @forelse($likes as $like)
-                            @if(Auth::user()->name == $like->getUsers->name)
-                            @if($like->book_id == $book->id)
-                            <h3>You already liked this book</h3>
-                            @endif
-                            @if($like->book_id !== $book->id)
-                            @php
-                            $lik++
-                            @endphp
-                            @if($ord == $like->count() )
                                 <form action="{{route('l_store')}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
                                 <input type="hidden" value="{{ $book->id}}" name="book_id">
                                 @csrf
                                 <button type="submit" class="order">Like</button>
                             </form>
-                            @endif
-                            @endif
-                            @endif
-                            @empty
-                            <h3>no likes</h3>
-                            @endforelse
-
                             @else
                             <form action="{{route('l_store')}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
                                 <input type="hidden" value="{{ $book->id}}" name="book_id">
                                 @csrf
-                                <button type="submit" class="order">like</button>
+                                <button type="submit" class="order">Like</button>
                             </form>
                             @endif
                         </div>

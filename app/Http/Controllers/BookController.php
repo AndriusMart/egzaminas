@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\Like;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -73,6 +75,8 @@ class BookController extends Controller
             'book.show',
             [
                 'book' => $book,
+                'orders' => Order::orderBy('updated_at', 'desc')->get(),
+                'likes' => Like::orderBy('updated_at', 'desc')->get(),
             ]
         );
     }
