@@ -88,11 +88,20 @@
                         </div>
                         <div class="buy-see overlay">
                             {{-- order --}}
+                            @php
+                            $ord = 0
+                            @endphp
                             @if($orders->first() !== null)
                             @forelse($orders as $order)
                             @if($order->book_id == $book->id)
                             <div style="display: none">
                             </div>
+                            @if($order->book_id !== $book->id)
+                            @php
+                            $ord++
+                            @endphp
+                            {{dump($ord)}}
+                            @endif
                             <h1>gg</h1>
                             @endif
                             @empty
@@ -105,7 +114,7 @@
                                 <button type="submit" class="order">Order</button>
                             </form>
                             <a href="{{route('b_show', $book)}}" class="order">Show</a>
-                            
+
                             @else
                             <form action="{{route('o_store')}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
