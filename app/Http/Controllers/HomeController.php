@@ -64,7 +64,7 @@ class HomeController extends Controller
     {
         $votes = json_decode($book->votes ?? json_encode([]));
         if (in_array(Auth::user()->id, $votes)) {
-            return redirect()->back()->with('not', 'You already rated this item');
+            return redirect()->back()->with('not', 'You already rated this book');
         }
         $votes[] = Auth::user()->id;
         $book->votes = json_encode($votes);
@@ -72,7 +72,7 @@ class HomeController extends Controller
         $book->rating_count++;
         $book->rating = $book->rating_sum / $book->rating_count;
         $book->save();
-        return redirect()->back()->with('ok', 'Thanks for rating this item');
+        return redirect()->back()->with('ok', 'Thanks for rating this book');
     }
 
 
