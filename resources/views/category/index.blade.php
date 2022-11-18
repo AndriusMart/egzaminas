@@ -15,6 +15,7 @@
                             <div class="hotels-list">
                                 <div class="content">
                                     <h2>{{$category->title}}</h2>
+                                    <span>[{{$category->getBooks()->count()}}]</span>
 
                                 </div>
                                 <div class="buttons">
