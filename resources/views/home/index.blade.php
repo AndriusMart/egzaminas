@@ -94,25 +94,26 @@
                             @if($orders->first() !== null)
                             @forelse($orders as $order)
                             @if($order->book_id == $book->id)
-                            <div style="display: none">
+                            <div >Out of stock
                             </div>
+                            @endif
                             @if($order->book_id !== $book->id)
                             @php
                             $ord++
                             @endphp
-                            {{dump($ord)}}
-                            @endif
-                            <h1>gg</h1>
-                            @endif
-                            @empty
-                            <h3>no orders</h3>
-                            @endforelse
-                            <form action="{{route('o_store')}}" method="post" enctype="multipart/form-data">
+                            @if($ord == $orders->count() )
+                                <form action="{{route('o_store')}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
                                 <input type="hidden" value="{{ $book->id}}" name="book_id">
                                 @csrf
                                 <button type="submit" class="order">Order</button>
                             </form>
+                            @endif
+                            @endif
+                            @empty
+                            <h3>no orders</h3>
+                            @endforelse
+                            
                             <a href="{{route('b_show', $book)}}" class="order">Show</a>
 
                             @else
@@ -126,22 +127,33 @@
                             @endif
 
                             {{-- like --}}
+                            @php
+                            $lik = 0
+                            @endphp
                             @if($likes->first() !== null)
                             @forelse($likes as $like)
                             @if(Auth::user()->name == $like->getUsers->name)
                             @if($like->book_id == $book->id)
                             <h3>You already liked this book</h3>
                             @endif
-                            @endif
-                            @empty
-                            <h3>no likes</h3>
-                            @endforelse
-                            <form action="{{route('l_store')}}" method="post" enctype="multipart/form-data">
+                            @if($like->book_id !== $book->id)
+                            @php
+                            $lik++
+                            @endphp
+                            @if($ord == $like->count() )
+                                <form action="{{route('l_store')}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
                                 <input type="hidden" value="{{ $book->id}}" name="book_id">
                                 @csrf
                                 <button type="submit" class="order">Like</button>
                             </form>
+                            @endif
+                            @endif
+                            @endif
+                            @empty
+                            <h3>no likes</h3>
+                            @endforelse
+
                             @else
                             <form action="{{route('l_store')}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
